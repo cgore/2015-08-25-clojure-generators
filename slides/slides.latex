@@ -85,7 +85,7 @@
 \definecolor{cexcolor}{rgb}{0.25,0.25,0.4}
 \lstset{
   basicstyle=\footnotesize\ttfamily,
-  language=Ruby,
+  language=Lisp,
   morekeywords={make-instance},
   escapeinside={\%*}{*)},
   commentstyle=\itshape\color{commentcolor},
@@ -155,6 +155,97 @@
   \maketitle
 
   \color{Black}
+\end{slide}
+
+
+\begin{slide}
+  \h{Clojure at Climate: We're Hiring!}
+
+  \fullSlideImage{climate-logo-bluebg.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{Add Stuff to Your \texttt{project.clj}}
+
+\begin{lstlisting}
+(defproject your-project "1.2.3"
+  :description "It's like totally awesome and stuff"
+  ;; ...
+  :dependencies [;;...
+                 [prismatic/schema "0.4.3"]
+                 [org.clojure/test.check "0.7.0"]
+                 ;; ...
+                 ]
+  ;; ...
+  )
+\end{lstlisting}
+\end{slide}
+
+
+\begin{slide}
+  \h{Prismatic Schema}
+
+  Schemata are sort of like types, but only as strict as you want them to be at
+  that specific moment, so no type hell.
+
+\begin{lstlisting}
+(ns schema-stuff
+  (:require [schema.core :as s]))
+
+(s/validate s/Num 42)
+(s/validate s/Str "howza")
+(s/validate s/Keyword :hey)
+\end{lstlisting}
+\end{slide}
+
+
+\begin{slide}
+  \h{Clojure \texttt{test.check} and Generators}
+
+  Generators make random examples according to a definition.  It's a great way
+  to make test data without brittle hand-rolled examples.
+
+\begin{lstlisting}
+(ns gen-stuff
+  (:require [[clojure.test.check :as tc]
+             [clojure.test.check.generators :as gen]
+             [clojure.test.check.properties :as prop]]
+
+(gen/sample gen/int)
+;; => (0 1 -1 0 -1 4 4 2 7 1)
+(gen/sample gen/int 20)
+;; => (0 1 1 0 2 -4 0 5 -7 -8 4 5 3 11 -9 -4 6 -5 -3 0)
+\end{lstlisting}
+\end{slide}
+
+
+\begin{slide}
+  \h{Schemata + Generators = Awesome!}
+
+  \begin{itemize}
+  \item Schemata to validate function input
+    \begin{itemize}
+    \item Definitely in tests.
+    \item Maybe even in production.
+    \end{itemize}
+  \item Generators to fuzz the function in tests.
+  \item Feed the generators into the schemata.
+    \begin{itemize}
+    \item Check the generator against the schema.
+    \item Check the schema with the generator.
+    \end{itemize}
+  \end{itemize}
+\end{slide}
+
+
+\begin{slide}
+  \h{Schemata are These}
+\end{slide}
+
+
+\begin{slide}
+  \h{Generators are These}
 \end{slide}
 
 
