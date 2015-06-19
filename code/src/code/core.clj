@@ -18,3 +18,16 @@
 ;; If you don't want an exception use check instead of validate.
 (s/check s/Int 42) ; => nil
 (s/check s/Int "nope") ; => (not (integer? "nope"))
+
+;; Test Check Properties
+(def prop-addition-increments
+  (prop/for-all [a gen/int
+                 b gen/int]
+                (>= (+ a b) a))) ; This is always true.
+;; Check 100 times
+(tc/quick-check 100 prop-addition-increments)
+;; FAIL!  We forgot negatives!
+{:result false, :seed 1434746134125, :failing-size 2,
+ :num-tests 3,:fail [1 -2],
+ :shrunk {:total-nodes-visited 4, :depth 2, :result false,
+          :smallest [0 -1]}}
