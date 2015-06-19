@@ -39,3 +39,13 @@
 ;; Check 100 times
 (tc/quick-check 100 prop-addition-increments-for-nat)
 ;; => {:result true, :num-tests 100, :seed 1434746600412}
+
+;; A schema as a property
+(def Person {:name s/Str
+             :age s/Int}) ; We'll make s/Nat in a bit.
+(def person (gen/map-hash :name gen/string
+                          :age gen/nat))
+(def prop-person-generates-Person
+  (prop/for-all [p person]
+                (s/validate Person p)))
+(tc/quick-check 100 prop-person-generates-Person)
