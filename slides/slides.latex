@@ -301,6 +301,27 @@
 
 
 \begin{slide}
+  \h{Test Check Properties}
+
+  We discover the \textit{real properties} of our system this way, not just what
+  we \textit{think} they are.
+
+  $$\left[a+b \ge a\right] \forall a,b \in \mathbb{N} = \mathbb{Z} \cap [0,\infty)$$
+
+\begin{lstlisting}
+;; We meant for natural numbers [0,...)
+(def prop-addition-increments-for-nat
+  (prop/for-all [a gen/nat
+                 b gen/nat]
+                (>= (+ a b) a))) ; This is REALLY true
+;; Check 100 times
+(tc/quick-check 100 prop-addition-increments-for-nat)
+;; => {:result true, :num-tests 100, :seed 1434746600412}
+\end{lstlisting}
+\end{slide}
+
+
+\begin{slide}
   \SlideSection{Questions?}
 \end{slide}
 \end{document}

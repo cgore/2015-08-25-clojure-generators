@@ -31,3 +31,11 @@
  :num-tests 3,:fail [1 -2],
  :shrunk {:total-nodes-visited 4, :depth 2, :result false,
           :smallest [0 -1]}}
+;; We meant for natural numbers [0,...)
+(def prop-addition-increments-for-nat
+  (prop/for-all [a gen/nat
+                 b gen/nat]
+                (>= (+ a b) a))) ; This is REALLY true.
+;; Check 100 times
+(tc/quick-check 100 prop-addition-increments-for-nat)
+;; => {:result true, :num-tests 100, :seed 1434746600412}
