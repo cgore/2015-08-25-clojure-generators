@@ -208,9 +208,9 @@
 
 \begin{lstlisting}
 (ns gen-stuff
-  (:require [[clojure.test.check :as tc]
-             [clojure.test.check.generators :as gen]
-             [clojure.test.check.properties :as prop]]
+  (:require [clojure.test.check :as tc]
+            [clojure.test.check.generators :as gen]
+            [clojure.test.check.properties :as prop]
 
 (gen/sample gen/int)
 ;; => (0 1 -1 0 -1 4 4 2 7 1)
@@ -241,11 +241,41 @@
 
 \begin{slide}
   \h{Schemata are These}
+
+  \fullSlideImage{paint-by-number.eps}
 \end{slide}
 
 
 \begin{slide}
   \h{Generators are These}
+
+  \fullSlideImage{1964brassau01.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{Used Together, We Catch When Our Code Does This}
+
+  \fullSlideImage{modern-art.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{Schema: \texttt{validate} versus \texttt{check}}
+
+  The two most important functions for schema checks are \texttt{validate} and
+  \texttt{check}, the only real difference being that \texttt{validate} raises
+  an error and check does not.
+
+\begin{lstlisting}
+;; A schema for integers.
+(s/validate s/Int 42) ; passes, returns 42
+(try (s/validate s/Int "nope") ; fails, throws an error.
+     (catch Exception e))
+
+(s/check s/Int 42) ; => nil
+(s/check s/Int "nope") ; => (not (integer? "nope"))
+\end{lstlisting}
 \end{slide}
 
 
