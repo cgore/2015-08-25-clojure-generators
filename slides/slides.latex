@@ -159,8 +159,7 @@
 
 
 \begin{slide}
-  \h{Clojure at Climate: We're Hiring!}
-
+  \h{We Write Clojure at The Climate Corporation,\\And We're Hiring!}
   \fullSlideImage{climate-logo-bluebg.eps}
 \end{slide}
 
@@ -186,7 +185,10 @@
 \begin{slide}
   \h{Prismatic Schema}
 
-  Schemata are sort of like types, but only as strict as you want them to be at
+  Schemata%
+  \footnote{The plural of \textit{schema} is \textit{schemata}, not
+    \textit{schemas.}}
+  are sort of like types, but only as strict as you want them to be at
   that specific moment, so no type hell.
 
 \begin{lstlisting}
@@ -337,6 +339,23 @@
   (prop/for-all [p person]
                 (s/validate Person p)))
 (tc/quick-check 100 prop-person-generates-Person)
+\end{lstlisting}
+\end{slide}
+
+
+\begin{slide}
+  \h{Integrating \texttt{test.check} and \texttt{clojure.test}}
+
+  There is a \texttt{defspec} macro to parallel \texttt{deftest} at\\
+  \texttt{clojure.test.check.clojure-test/defspec}.
+
+\begin{lstlisting}
+(defspec first-element-is-min-after-sorting
+         100 ; the number of iterations
+         (prop/for-all [v (gen/not-empty
+                            (gen/vector gen/int))]
+           (= (apply min v)
+              (first (sort v)))))
 \end{lstlisting}
 \end{slide}
 
