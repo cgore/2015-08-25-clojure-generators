@@ -135,7 +135,7 @@
   \end{tabular}
 }
 
-\title{\psshadowbox{Clojure Schemata and Generators}}
+\title{\psshadowbox{Clojure Generators}}
 \author{Christopher Mark Gore\\
   \texttt{cgore.com}}
 \date{Tuesday, August 25, {\smaller AD} 2015} % textsc doesn't seem to work for Baskerville.
@@ -365,36 +365,187 @@
 
   \begin{tabular}{lll}
     \textbf{What is it} & \textbf{Schema} & \textbf{Generator} \\
-    \hline
 
     strings &
-    \texttt{Str} &
-    \texttt{string} \\
+    \texttt{s/Str} &
+    \texttt{gen/string} \\
 
     real numbers &
-    \texttt{Num} &
+    \texttt{s/Num} &
     \textit{missing} \\
 
     $\mathbb{Z} = \{\ldots, -2,-1, 0, 1, 2, \ldots\}$ &
-    \texttt{Int} &
-    \texttt{int} \\
+    \texttt{s/Int} &
+    \texttt{gen/int} \\
 
     $\mathbb{N} = \{0, 1, 2, \ldots\}$ &
     \textit{missing} &
-    \texttt{nat} or \texttt{pos-int}\\
+    \texttt{gen/nat} or \texttt{gen/pos-int}\\
 
     $\mathbb{Z}^+ = \mathbb{N} \setminus \{0\}$ &
     \textit{missing} &
-    \texttt{s-pos-int} \\
+    \texttt{gen/s-pos-int} \\
 
     $\mathbb{Z}^-$ &
     \textit{missing} &
-    \texttt{s-neg-int} \\
+    \texttt{gen/s-neg-int} \\
 
     $\mathbb{Z}^- \cup \{0\}$ &
     \textit{missing} &
-    \texttt{neg-int}
+    \texttt{gen/neg-int}
   \end{tabular}
+\end{slide}
+
+
+\begin{slide}
+  \h{That's a Lot of Missing Things!}
+
+  \fullSlideImage{missing-milk-carton-clojure.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{Existing Generators: Bits and Bytes}
+
+  \begin{description}
+  \item[\texttt{gen/boolean}] Either \texttt{true} or \texttt{false}.
+    \begin{lstlisting}
+      (gen/sample gen/boolean)
+      ;; => (false true false true true
+      ;;     false false false false true)
+    \end{lstlisting}
+  \item[\texttt{gen/byte}] A single \texttt{java.lang.Byte}.
+    \begin{lstlisting}
+      (gen/sample gen/byte)
+      ;; => (-88 101 101 104 24 -37 -36 9 20 107)
+    \end{lstlisting}
+  \item[\texttt{gen/bytes}] A \texttt{byte-array}.
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Existing Generators: Numbers}
+
+  \begin{description}
+  \item[\texttt{gen/int}] Any integer.
+    \begin{lstlisting}
+      (gen/sample gen/int)
+      ;; => (0 -1 1 2 3 -2 -3 3 5 -2)
+    \end{lstlisting}
+  \item[\texttt{gen/choose}] Numbers in the specified range.
+    \begin{lstlisting}
+      (gen/sample (gen/choose 18 45)
+      ;; => (24 34 33 37 27 29 29 32 44 18)
+    \end{lstlisting}
+  \item[\texttt{gen/nat}] Natural numbers: positive integers and $0$.
+  \item[\texttt{gen/pos-int} and \texttt{gen/neg-int}] Postive-only or
+    negative-only integers, allowing for $0$.
+  \item[\texttt{gen/s-pos-int} and \texttt{gen/s-neg-int}] Postive-only or
+    negative-only integers, \textbf{not} allowing for $0$.
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Existing Generators: Characters and Strings}
+
+  \begin{description}
+  \item[\texttt{gen/char}] Any character.
+  \item[\texttt{gen/char-ascii}] ASCII-only characters.
+  \item[\texttt{gen/char-alphanumeric}] Alphanumeric characters, a--z, A--Z and 0--9.
+  \item[\texttt{gen/char-alpha}] Alpha-only characters, a--z and A--Z.
+  \item[\texttt{gen/string}] Any string.
+  \item[\texttt{gen/string-ascii}] ASCII-only strings.
+    \begin{lstlisting}
+      (gen/sample gen/string-ascii)
+      ;; => ("" "" "qc" "I-k" "F" ""
+      ;;     ", Ou" "6kT]<" "}`!" "5ZH=v75")
+    \end{lstlisting}
+  \item[\texttt{gen/string-alphanumeric}] Alphanumeric strings.
+  \item[\texttt{gen/string-alpha}] \textit{Doesn't exist?}
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Existing Generators: Collections}
+
+  \begin{description}
+  \item[\texttt{gen/tuple}]
+  \item[\texttt{gen/vector}]
+  \item[\texttt{gen/list}]
+  \item[\texttt{gen/shuffle}]
+  \item[\texttt{gen/map}]
+  \item[\texttt{gen/hash-map}]
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Modifying Existing Generators}
+
+  \begin{description}
+  \item[\texttt{gen/not-empty}]
+  \item[\texttt{gen/no-shrink}]
+  \item[\texttt{gen/such-that}]
+  \item[\texttt{gen/sized}]
+  \item[\texttt{gen/resize}]
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Making New Generators}
+
+  \begin{description}
+  \item[\texttt{gen/return}] Always the same thing.
+    \begin{lstlisting}
+      (gen/sample (gen/return 42))
+      ;; => (42 42 42 42 42 42 42 42 42 42)
+    \end{lstlisting}
+  \item[\texttt{gen/one-of}]
+  \item[\texttt{gen/frequency}]
+  \item[\texttt{gen/bind}]
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Using \texttt{gen/elements}}
+
+  Randomly pick (without exhaustion) from a collection.
+
+\begin{lstlisting}
+(gen/sample
+  (gen/elements [:spades :diamonds :hearts :clubs]))
+;; => (:diamonds :clubs :spades :clubs :hearts
+;;     :spades :spades :hearts :hearts :hearts)
+\end{lstlisting}
+\end{slide}
+
+
+\begin{slide}
+  \h{Making New Generators With \texttt{gen/fmap}}
+
+  If nothing makes sense to generate your stuff, there's always
+  \texttt{gen/fmap}, and then you can use any function you want. Huzzah,
+  Clojure!
+
+%% TODO: better example.
+
+\begin{lstlisting}
+(def even-and-positive (gen/fmap #(* 2 %) gen/pos-int))
+(gen/sample even-and-positive 20)
+;; => (0 0 2 0 8 6 4 12 4 18 10 0 8 2 16 16 6 4 10 4)
+(def gen-double (gen/fmap rand gen/int)
+(gen/sample gen-double)
+;; => (0.0                 0.0
+;;     0.8433531349313175 -0.5407298249526976
+;;     0.7282154724842486 -0.5111220285736056
+;;    -1.6998294599186186  1.4744104363479704
+;;     2.094621081981671  -1.7704991357273019)
+\end{lstlisting}
 \end{slide}
 
 
