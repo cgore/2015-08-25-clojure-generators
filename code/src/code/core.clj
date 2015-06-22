@@ -43,7 +43,7 @@
 ;; A schema as a property
 (def Person {:name s/Str
              :age s/Int}) ; We'll make s/Nat in a bit.
-(def person (gen/map-hash :name gen/string
+(def person (gen/hash-map :name gen/string
                           :age gen/nat))
 (def prop-person-generates-Person
   (prop/for-all [p person]

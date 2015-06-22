@@ -361,6 +361,44 @@
 
 
 \begin{slide}
+  \h{Names are Great, Two Are Better!}
+
+  \begin{tabular}{lll}
+    \textbf{What is it} & \textbf{Schema} & \textbf{Generator} \\
+    \hline
+
+    strings &
+    \texttt{Str} &
+    \texttt{string} \\
+
+    real numbers &
+    \texttt{Num} &
+    \textit{missing} \\
+
+    $\mathbb{Z} = \{\ldots, -2,-1, 0, 1, 2, \ldots\}$ &
+    \texttt{Int} &
+    \texttt{int} \\
+
+    $\mathbb{N} = \{0, 1, 2, \ldots\}$ &
+    \textit{missing} &
+    \texttt{nat} or \texttt{pos-int}\\
+
+    $\mathbb{Z}^+ = \mathbb{N} \setminus \{0\}$ &
+    \textit{missing} &
+    \texttt{s-pos-int} \\
+
+    $\mathbb{Z}^-$ &
+    \textit{missing} &
+    \texttt{s-neg-int} \\
+
+    $\mathbb{Z}^- \cup \{0\}$ &
+    \textit{missing} &
+    \texttt{neg-int}
+  \end{tabular}
+\end{slide}
+
+
+\begin{slide}
   \SlideSection{Questions?}
 \end{slide}
 \end{document}
