@@ -504,8 +504,18 @@
       (gen/sample (gen/return 42))
       ;; => (42 42 42 42 42 42 42 42 42 42)
     \end{lstlisting}
-  \item[\texttt{gen/one-of}]
-  \item[\texttt{gen/frequency}]
+  \item[\texttt{gen/one-of}] \textit{Either} this \textit{or} that.
+    \begin{lstlisting}
+    (gen/sample (gen/one-of [gen/int gen/string-ascii]))
+    ;; => ("" "$" 1 2 "tk" "H]=7" 1 0 -4 -6)
+    \end{lstlisting}
+  \item[\texttt{gen/frequency}] Same as \texttt{gen/one-of}, but with set
+    probabilities.
+    \begin{lstlisting}
+      (gen/sample (gen/frequency [[7 gen/int]
+                                  [3 gen/string-ascii]]))
+      ;; => ("" 1 1 ".P!" 0 3 -5 4 6 -3)
+    \end{lstlisting}
   \item[\texttt{gen/bind}]
   \end{description}
 \end{slide}
