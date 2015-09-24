@@ -135,10 +135,10 @@
   \end{tabular}
 }
 
-\title{\psshadowbox{Clojure Generators}}
+\title{\psshadowbox{Clojure Schemata and Generators}}
 \author{Christopher Mark Gore\\
   \texttt{cgore.com}}
-\date{Tuesday, August 25, {\smaller AD} 2015} % textsc doesn't seem to work for Baskerville.
+\date{Tuesday, September 29, {\smaller AD} 2015} % textsc doesn't seem to work for Baskerville.
 
 \begin{document}
 
