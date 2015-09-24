@@ -420,6 +420,10 @@
       ;; => (-88 101 101 104 24 -37 -36 9 20 107)
     \end{lstlisting}
   \item[\texttt{gen/bytes}] A \texttt{byte-array}.
+    \begin{lstlisting}
+      (gen/sample gen/bytes)
+      ;; => (#<byte[] [B@2efce23e> ...)
+    \end{lstlisting}
   \end{description}
 \end{slide}
 
@@ -455,7 +459,7 @@
   \item[\texttt{gen/char-ascii}] ASCII-only characters.
   \item[\texttt{gen/char-alphanumeric}] Alphanumeric characters, a--z, A--Z and 0--9.
   \item[\texttt{gen/char-alpha}] Alpha-only characters, a--z and A--Z.
-  \item[\texttt{gen/string}] Any string.
+  \item[\texttt{gen/string}] Any string, \textit{including weird characters}.
   \item[\texttt{gen/string-ascii}] ASCII-only strings.
     \begin{lstlisting}
       (gen/sample gen/string-ascii)
@@ -463,7 +467,6 @@
       ;;     ", Ou" "6kT]<" "}`!" "5ZH=v75")
     \end{lstlisting}
   \item[\texttt{gen/string-alphanumeric}] Alphanumeric strings.
-  \item[\texttt{gen/string-alpha}] \textit{Doesn't exist?}
   \end{description}
 \end{slide}
 
@@ -472,12 +475,68 @@
   \h{Existing Generators: Collections}
 
   \begin{description}
-  \item[\texttt{gen/tuple}]
-  \item[\texttt{gen/vector}]
-  \item[\texttt{gen/list}]
-  \item[\texttt{gen/shuffle}]
-  \item[\texttt{gen/map}]
-  \item[\texttt{gen/hash-map}]
+  \item[\texttt{gen/tuple}] A vector in a specific order.
+    \begin{lstlisting}
+      (gen/sample (gen/tuple gen/int gen/string-ascii))
+      ;; => ([0 ""] [0 ""] [-2 "KY"] [0 "J\\"] [4 "n"]
+      ;;     [-2 "\\"] [-2 ";%HJCM"] [-2 "QwD"]
+      ;;     [1 "]KLY|P"] [6 "g"])
+    \end{lstlisting}
+  \item[\texttt{gen/vector}] A vector of generated things.
+    \begin{lstlisting}
+      (gen/sample (gen/vector gen/int))
+      ;; => ([] [] [] [1] [] [0 5 -1 0 5] [5 5 3]
+      ;;     [-6 3 -1] [7 -7 -6 2 0 -5 3 -7]
+      ;;     [-9 -4 4 -6 -5 0])
+    \end{lstlisting}
+  \item[\texttt{gen/list}] A list of generated things, instead of a vector.
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Existing Generators: Collections}
+
+  \begin{description}
+  \item[\texttt{gen/shuffle}] Randomly permute a sequence.
+    \begin{lstlisting}
+      (gen/sample (gen/shuffle [1 2 3]))
+      ;; => ([1 2 3] [3 1 2] [1 2 3] [2 3 1] [1 3 2]
+      ;;     [2 1 3] [2 1 3] [2 1 3] [1 3 2] [3 1 2])
+    \end{lstlisting}
+  \item[\texttt{gen/map}] Generate maps with both the key and value being generated.
+    \begin{lstlisting}
+      (gen/sample
+        (gen/map (gen/elements [:bibbidi :bobbidi :boo])
+                               gen/int))
+      ;; => ({} {:bobbidi -1} {}
+      ;;     {:bobbidi -2, :bibbidi -3}
+      ;;     {:boo 2, :bobbidi -2}
+      ;;     {:boo -2, :bobbidi -1}
+      ;;     {:boo -1, :bibbidi -5} {} {} {:bibbidi 2})
+    \end{lstlisting}
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Existing Generators: Collections}
+
+  \begin{description}
+  \item[\texttt{gen/hash-map}] You'll use this a lot.
+    \begin{lstlisting}
+      (gen/sample
+        (gen/hash-map :bibbidi gen/int
+                      :bobbidi gen/string-ascii
+                      :boo (gen/return 4077)))
+      ;; => ({:boo 4077, :bobbidi "", :bibbidi 0}
+      ;;     {:boo 4077, :bobbidi "H", :bibbidi 0}
+      ;;     {:boo 4077, :bobbidi "", :bibbidi 0}
+      ;;     {:boo 4077, :bobbidi "8B", :bibbidi -3}
+      ;;     {:boo 4077, :bobbidi "OY", :bibbidi 1}
+      ;;     {:boo 4077, :bobbidi "a&)", :bibbidi -5}
+      ;;     {:boo 4077, :bobbidi "", :bibbidi 0} ...)
+    \end{lstlisting}
   \end{description}
 \end{slide}
 
