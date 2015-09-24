@@ -545,11 +545,46 @@
   \h{Modifying Existing Generators}
 
   \begin{description}
-  \item[\texttt{gen/not-empty}]
-  \item[\texttt{gen/no-shrink}]
-  \item[\texttt{gen/such-that}]
-  \item[\texttt{gen/sized}]
-  \item[\texttt{gen/resize}]
+  \item[\texttt{gen/not-empty}] Empty collections are sometimes irritating.
+    \begin{lstlisting}
+      (gen/sample (gen/vector gen/int))
+      ;; => ([] ; DO NOT WANT
+      ;;     [-1] [0] [3 -3] [-1 0 2 0] [4]
+      ;;     [5 -5] [2 1 -6 -1 2] [-1 -7 -7]
+      ;;     [-5 6 -1 -4])
+      (gen/sample (gen/not-empty (gen/vector gen/int)))
+      ;; => ([-1] [-2 2] [2 -2] [2] [2 0] [3 -6]
+      ;;     [1 -5 0 4] [5 -2 -2 -3 -3 -4 5]
+      ;;     [-2 7 2 -3] [7 6 -4])
+    \end{lstlisting}
+  \item[\texttt{gen/no-shrink}] I've never used this: it's weird?  Shrinking is
+    weird in general.
+  \end{description}
+\end{slide}
+
+
+\begin{slide}
+  \h{Modifying Existing Generators}
+
+  \begin{description}
+  \item[\texttt{gen/such-that}] Add a simple requirement to an existing
+    generator, rejecting things that don't pass the predicate.
+    \begin{lstlisting}
+      (gen/sample (gen/such-that #(< 3 %) gen/int))
+      ;; => (4 4 9 6 4 5 6 6 4 9)
+    \end{lstlisting}
+  \item[\texttt{gen/sized}] Make a generator that is dependent on a
+    \textit{size} concept of some sort.
+    \begin{lstlisting}
+      (gen/sample (gen/sized #(gen/choose 0 %)))
+      ;; => (0 0 2 0 1 5 4 5 0 4)
+    \end{lstlisting}
+  \item[\texttt{gen/resize}] Change the size.
+    \begin{lstlisting}
+      (gen/sample
+        (gen/resize 5 (gen/sized #(gen/choose 0 %))))
+      ;; => (5 5 5 3 1 4 1 1 5 4)
+    \end{lstlisting}
   \end{description}
 \end{slide}
 
