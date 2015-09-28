@@ -159,13 +159,51 @@
 
 
 \begin{slide}
-  \h{We Write Clojure at The Climate Corporation,\\And We're Hiring!}
+  \h{We write Clojure at The Climate Corporation,\\and we're hiring!  Come work
+    with us!}
   \fullSlideImage{climate-logo-bluebg.eps}
 \end{slide}
 
 
 \begin{slide}
-  \h{Add Stuff to Your \texttt{project.clj}}
+  \h{We don't need to look for new ways to test our code, TDD works great!}
+
+  \fullSlideImage{tdd-circle-of-life.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{We don't need to look for new ways to test our code; \textit{TDD works great???}}
+
+  \fullSlideImage{computer-fire.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{Schemata sketch out the boundary lines our code shouldn't cross.}
+
+  \fullSlideImage{paint-by-number.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{Generators are nice little chaos monkeys for our code.}
+
+  \fullSlideImage{1964brassau01.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{Used together, we can catch when our \textit{``work of art''} might need
+    some more time.}
+
+  \fullSlideImage{modern-art.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{You'll need to add some stuff to your \texttt{project.clj} to get schemata
+    and generators.}
 
 \begin{lstlisting}
 (defproject your-project "1.2.3"
@@ -183,13 +221,8 @@
 
 
 \begin{slide}
-  \h{Prismatic Schema}
-
-  Schemata%
-  \footnote{The plural of \textit{schema} is \textit{schemata}, not
-    \textit{schemas.}}
-  are sort of like types, but only as strict as you want them to be at
-  that specific moment, so no type hell.
+  \h{Schemata are like types, but only as strict as you want them to be
+    at that specific moment.}
 
 \begin{lstlisting}
 (ns schema-stuff
@@ -203,10 +236,7 @@
 
 
 \begin{slide}
-  \h{Clojure \texttt{test.check} and Generators}
-
-  Generators make random examples according to a definition.  It's a great way
-  to make test data without brittle hand-rolled examples.
+  \h{Generators make random examples according to your definition.}
 
 \begin{lstlisting}
 (ns gen-stuff
@@ -223,51 +253,8 @@
 
 
 \begin{slide}
-  \h{Schemata + Generators = Awesome!}
-
-  \begin{itemize}
-  \item Schemata to validate function input
-    \begin{itemize}
-    \item Definitely in tests.
-    \item Maybe even in production.
-    \end{itemize}
-  \item Generators to fuzz the function in tests.
-  \item Feed the generators into the schemata.
-    \begin{itemize}
-    \item Check the generator against the schema.
-    \item Check the schema with the generator.
-    \end{itemize}
-  \end{itemize}
-\end{slide}
-
-
-\begin{slide}
-  \h{Schemata are These}
-
-  \fullSlideImage{paint-by-number.eps}
-\end{slide}
-
-
-\begin{slide}
-  \h{Generators are These}
-
-  \fullSlideImage{1964brassau01.eps}
-\end{slide}
-
-
-\begin{slide}
-  \h{Used Together, We Catch When Our Code Does This}
-
-  \fullSlideImage{modern-art.eps}
-\end{slide}
-
-
-\begin{slide}
-  \h{Schema: \texttt{validate} versus \texttt{check}}
-
-  The two most important functions for schema checks are \texttt{validate} and
-  \texttt{check}, the only real difference being that \texttt{validate} raises
-  an error and check does not.
+  \h{Schema \texttt{validate} raises an error;\\
+    schema \texttt{check} returns an error description.}
 
 \begin{lstlisting}
 ;; A schema for integers.
@@ -282,9 +269,8 @@
 
 
 \begin{slide}
-  \h{Test Check Properties}
-
-  We define properties we expect to always hold, and assert those properties.
+  \h{We define properties we expect to always hold, and assert those properties
+    over a large set of generated inputs.}
 
 \begin{lstlisting}
 (def prop-addition-increments
@@ -303,10 +289,8 @@
 
 
 \begin{slide}
-  \h{Test Check Properties}
-
-  We discover the \textit{real properties} of our system this way, not just what
-  we \textit{think} they are.
+  \h{We discover the \textit{properties really are} of our system, not just what
+    we \textit{think} they are.}
 
   $$\left[a+b \ge a\right] \forall a,b \in \mathbb{N} = \mathbb{Z} \cap [0,\infty)$$
 
@@ -324,11 +308,8 @@
 
 
 \begin{slide}
-  \h{Our Schemata are Our Properties}
-
-  Our schema must accept \textit{all} instances, if not, it's not a valid
-  schema, therefore we can state that the schema is a property \textit{for all}
-  of our generated examples.
+  \h{Our schema must accept \textit{all} instances to be valid. Therefore the
+    schema is a property \textit{for all} of our generated examples.}
 
 \begin{lstlisting}
 (def Person {:name s/Str
@@ -344,24 +325,23 @@
 
 
 \begin{slide}
-  \h{Integrating \texttt{test.check} and \texttt{clojure.test}}
-
-  There is a \texttt{defspec} macro to parallel \texttt{deftest} at\\
-  \texttt{clojure.test.check.clojure-test/defspec}.
+  \h{There is a \texttt{defspec} macro to parallel \texttt{deftest} at\\
+    \texttt{clojure.test.check.clojure-test/defspec}.}
 
 \begin{lstlisting}
-(defspec first-element-is-min-after-sorting
-         100 ; the number of iterations
-         (prop/for-all [v (gen/not-empty
+(defspec first-element-is-min-after-sorting ; spec name
+         100 ; number of iterations
+         (prop/for-all [v (gen/not-empty ; generated stuff
                             (gen/vector gen/int))]
-           (= (apply min v)
+           (= (apply min v) ; assertion we care about
               (first (sort v)))))
 \end{lstlisting}
 \end{slide}
 
 
 \begin{slide}
-  \h{Names are Great, Two Are Better!}
+  \h{Names are great!\\
+    Two for everything?  That sucks.}
 
   \begin{tabular}{lll}
     \textbf{What is it} & \textbf{Schema} & \textbf{Generator} \\
@@ -405,31 +385,55 @@
 
 
 \begin{slide}
-  \h{Existing Generators: Bits and Bytes}
+  \h{We can generate booleans with \texttt{gen/boolean}.}
 
-  \begin{description}
-  \item[\texttt{gen/boolean}] Either \texttt{true} or \texttt{false}.
-    \begin{lstlisting}
-      (gen/sample gen/boolean)
-      ;; => (false true false true true
-      ;;     false false false false true)
-    \end{lstlisting}
-  \item[\texttt{gen/byte}] A single \texttt{java.lang.Byte}.
-    \begin{lstlisting}
-      (gen/sample gen/byte)
-      ;; => (-88 101 101 104 24 -37 -36 9 20 107)
-    \end{lstlisting}
-  \item[\texttt{gen/bytes}] A \texttt{byte-array}.
-    \begin{lstlisting}
-      (gen/sample gen/bytes)
-      ;; => (#<byte[] [B@2efce23e> ...)
-    \end{lstlisting}
-  \end{description}
+\begin{lstlisting}
+(gen/sample gen/boolean)
+;; => (false
+;;     true
+;;     false
+;;     true
+;;     true
+;;     false
+;;     false
+;;     false
+;;     false
+;;     true)
+\end{lstlisting}
 \end{slide}
 
 
 \begin{slide}
-  \h{Existing Generators: Numbers}
+  \h{We can generate a single \texttt{java.lang.Byte} with \texttt{gen/byte}.}
+
+\begin{lstlisting}
+(gen/sample gen/byte)
+;; => (-88
+;;     101
+;;     101
+;;     104
+;;      24
+;;     -37
+;;     -36
+;;       9
+;;      20
+;;     107)
+\end{lstlisting}
+\end{slide}
+
+\begin{slide}
+  \h{We can generate a \texttt{byte-array} with \texttt{gen/bytes}.}
+
+\begin{lstlisting}
+(gen/sample gen/bytes)
+;; => (#<byte[] [B@2efce23e>
+;;     ...)
+\end{lstlisting}
+\end{slide}
+
+
+\begin{slide}
+  \h{There's a lot of existing generators for numbers of various sorts.}
 
   \begin{description}
   \item[\texttt{gen/int}] Any integer.
@@ -452,7 +456,7 @@
 
 
 \begin{slide}
-  \h{Existing Generators: Characters and Strings}
+  \h{There's a lot of existing generators for characters and strings.}
 
   \begin{description}
   \item[\texttt{gen/char}] Any character.
