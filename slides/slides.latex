@@ -182,7 +182,7 @@
 
 
 \begin{slide}
-  \h{We don't need to look for new ways to test our code; \textit{TDD works great???}}
+  \h{\textcolor{Red}{\sout{We don't need to look for new ways to test our code, TDD works great!}}}
 
   \fullSlideImage{computer-fire.eps}
 \end{slide}
@@ -722,6 +722,14 @@
 
 
 \begin{slide}
-  \SlideSection{Questions?}
+  \h{Conclusion}
+
+  You will discover a lot of bugs you wouldn't see \textit{(until production,
+    that is)} with a combination of schemata and generators, and you should
+  really consider adding this to your testing toolkit.
+
+  \vfill
+  \raggedleft
+  \textcolor{\hc}{\textbf{\emph{\Huge{Questions?}}}}
 \end{slide}
 \end{document}
