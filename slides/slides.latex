@@ -135,6 +135,14 @@
   \end{tabular}
 }
 
+
+\newpagestyle{cgore}{}{Chris Gore\hfil\thepage\hfil\texttt{cgore.com}}
+\pagestyle{cgore}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \title{\psshadowbox{Clojure Schemata and Generators}}
 \author{Christopher Mark Gore\\
   \texttt{cgore.com}}
@@ -146,6 +154,7 @@
 
 
 \begin{slide}
+  \pagestyle{empty}
   \color{\hc}
 
   \begin{center}
