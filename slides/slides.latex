@@ -469,7 +469,7 @@
     \end{lstlisting}
   \item[\texttt{gen/choose}] Numbers in the specified range.
     \begin{lstlisting}
-      (gen/sample (gen/choose 18 45)
+      (gen/sample (gen/choose 18 45))
       ;; => (24 34 33 37 27 29 29 32 44 18)
     \end{lstlisting}
   \item[\texttt{gen/nat}] Natural numbers: positive integers and $0$.
