@@ -167,6 +167,9 @@
 \end{slide}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \begin{slide}
   \h{We write Clojure at The Climate Corporation,\\and we're hiring!  Come work
     with us!}
@@ -207,6 +210,20 @@
     some more time.}
 
   \fullSlideImage{modern-art.eps}
+\end{slide}
+
+
+\begin{slide}
+  \h{A Generator Walked Into a Bar}
+  A generator walked into a bar.\footnote{Misquoting Don Branson.}\\
+  It orders a beer.\\
+  It orders 0 beers.\\
+  It orders 9,999,999 beers.\\
+  It orders -1 beers.\\
+  It orders a lizard.\\
+  It orders a \$5 bill, and tries to pay with a beer.\\
+  It orders a Q\t{oo}\v{s}\r{a}\"{o}\^{o}ZZ99!!\o\\
+  It orders a
 \end{slide}
 
 
